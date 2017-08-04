@@ -1,2 +1,2 @@
 # rentals-content-ingestion
-Content Ingestion tools for TripAdvisor Vacation Rentals
+Content ingestion tools for TripAdvisor Rentals
