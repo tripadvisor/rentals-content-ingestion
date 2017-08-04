@@ -1,0 +1,279 @@
+<?xml version="1.0"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="1.0" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="Property">
+        <xsd:complexType>
+            <xsd:all>
+                <xsd:element name="PropertyName" type="xsd:string" />
+                <xsd:element name="Address" type="AddressType" />
+                <xsd:element name="Details" type="DetailsType" />
+                <xsd:element name="Descriptions" type="DescriptionsType" />
+                <xsd:element name="Suitability" type="SuitabilityType" minOccurs="0"/>
+                <xsd:element name="Amenities" type="AmenitiesType" minOccurs="0"/>
+                <xsd:element name="Photos" type="PhotosType" />
+                <xsd:element name="Rates" type="RatesType" />
+                <xsd:element name="Fees" type="FeesType" minOccurs="0"/>
+            </xsd:all>
+            <xsd:attribute name="property_id" type="xsd:string" use="required"/>
+            <xsd:attribute name="last_update" type="xsd:string" /> 
+            <!-- TODO FIX me -->
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="FeesType">
+        <xsd:sequence maxOccurs="unbounded">
+            <xsd:element name="Fee">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="Name" type="xsd:string"/>
+                        <xsd:element name="Description" type="xsd:string"/>
+                        <xsd:element name="Cost">
+                            <xsd:complexType>
+                                <xsd:simpleContent>
+                                    <xsd:extension base="xsd:string">
+                                        <xsd:attribute name="type"><!-- Fix me -->
+                                            <xsd:simpleType>
+                                                <xsd:restriction base="xsd:string">
+                                                    <xsd:enumeration value="Flat"/>
+                                                    <xsd:enumeration value="Percent"/>
+                                                </xsd:restriction>
+                                            </xsd:simpleType>
+                                        </xsd:attribute>
+                                    </xsd:extension>
+                                </xsd:simpleContent>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="FeeType">
+                            <xsd:complexType>
+                                <xsd:attribute name="type">
+                                    <xsd:simpleType>
+                                        <xsd:restriction base="xsd:string">
+                                            <xsd:enumeration value="tax"/>
+                                            <xsd:enumeration value="fee"/>
+                                            <xsd:enumeration value="per-person"/>
+                                            <xsd:enumeration value="security-deposit"/>
+                                            <xsd:enumeration value="other"/>
+                                        </xsd:restriction>
+                                    </xsd:simpleType>
+                                </xsd:attribute>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:all>
+                    <xsd:attribute name="required">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:pattern value="yes|no"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="RatesType">
+        <xsd:sequence maxOccurs="unbounded">
+            <xsd:element name="Rate">
+                <xsd:complexType>
+                    <xsd:all minOccurs="0">
+                        <xsd:element minOccurs="0" name="Label" type="xsd:string" />
+                        <xsd:element minOccurs="0" name="StartDate" type="xsd:date" />
+                        <xsd:element minOccurs="0" name="EndDate" type="xsd:date" />
+                        <xsd:element minOccurs="0" name="DailyMinRate" type="money" />
+                        <xsd:element minOccurs="0" name="DailyMaxRate" type="money" />
+                        <xsd:element minOccurs="0" name="DailyWeeknightRate" type="money" />
+                        <xsd:element minOccurs="0" name="DailyWeekendRate" type="money" />
+                        <xsd:element minOccurs="0" name="WeeknightMinRate" type="money"/>
+                        <xsd:element minOccurs="0" name="WeeknightMaxRate" type="money" />
+                        <xsd:element minOccurs="0" name="WeekendMinRate" type="money" />
+                        <xsd:element minOccurs="0" name="WeekendMaxRate" type="money" />
+                        <xsd:element minOccurs="0" name="WeeklyMinRate" type="money" />
+                        <xsd:element minOccurs="0" name="WeeklyMaxRate" type="money" />
+                        <xsd:element minOccurs="0" name="MonthlyMinRate" type="money" />
+                        <xsd:element minOccurs="0" name="MonthlyMaxRate" type="money" />
+                        <xsd:element minOccurs="0" name="MinimumStayLength" type="xsd:int" />
+                        <xsd:element minOccurs="0" name="TurnDay" type="xsd:string" />
+                        <xsd:element minOccurs="0" name="WeekendNights" type="xsd:string" />
+                        <xsd:element minOccurs="0" name="PerPersonPerNight" type="xsd:string" />
+                        <xsd:element minOccurs="0" name="PerPersonPerStay" type="xsd:string" />
+                        <xsd:element minOccurs="0" name="FreeGuests" type="xsd:string" />
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="DefaultRate" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:all minOccurs="0">
+                        <xsd:element minOccurs="0" name="DailyRate" type="money" />
+                        <xsd:element minOccurs="0" name="WeeklyRate" type="money" />
+                        <xsd:element minOccurs="0" name="MonthlyRate" type="money" />
+                        <xsd:element minOccurs="0" name="MinimumStayLength" type="xsd:int" />
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="PhotosType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="Photo">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="URL" type="xsd:string" />
+                        <xsd:element name="Description" type="xsd:string" minOccurs="0"/>
+                    </xsd:all>
+                    <xsd:attribute name="order" type="xsd:int" />
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="src_base" type="xsd:string" />
+    </xsd:complexType>
+
+    <xsd:complexType name="AmenitiesType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="Amenity">
+                <xsd:complexType>
+                    <xsd:simpleContent>
+                        <xsd:extension base="xsd:string">
+                            <xsd:attribute name="order" type="xsd:int" />
+                        </xsd:extension>
+                    </xsd:simpleContent>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="SuitabilityType">
+        <xsd:all>
+            <xsd:element name="Pets" type="yesno" minOccurs="0" />
+            <xsd:element name="Smoking" type="yesno" minOccurs="0" />
+            <xsd:element name="HandicapAccessible" type="yesno" minOccurs="0" />
+            <xsd:element name="ElderlyAccessible" type="yesno" minOccurs="0" />
+            <xsd:element name="Children" type="yesno" minOccurs="0" />
+        </xsd:all>
+    </xsd:complexType>
+
+    <xsd:complexType name="DescriptionsType">
+        <xsd:all>
+            <xsd:element name="PropertyDescription" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="RateDescription" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="LocationDescription" type="xsd:string" minOccurs="0"/>
+        </xsd:all>
+    </xsd:complexType>
+    <xsd:complexType name="DetailsType">
+        <xsd:all>
+            <xsd:element name="MaximumOccupancy" type="xsd:int" minOccurs="0"/>
+            <xsd:element name="PropertyType" minOccurs="0">
+                <xsd:complexType>
+                    <xsd:attribute name="type">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="house"/>
+                                <xsd:enumeration value="apartment"/>
+                                <xsd:enumeration value="apt. / condo"/>
+                                <xsd:enumeration value="cabin"/>
+                                <xsd:enumeration value="b&amp;b"/>
+                                <xsd:enumeration value="resort"/>
+                                <xsd:enumeration value="other"/>
+                                <xsd:enumeration value="villa"/>
+                                <xsd:enumeration value="castle"/>
+                                <xsd:enumeration value="chalet"/>
+                                <xsd:enumeration value="cottage"/>
+                                <xsd:enumeration value="farmhouse/barn"/>
+                                <xsd:enumeration value="estate"/>
+                                <xsd:enumeration value="houseboat"/>
+                                <xsd:enumeration value="yacht"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="Bedrooms" minOccurs="0">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="unbounded" name="Bedroom" type="BedroomType" />
+                    </xsd:sequence>
+                    <xsd:attribute name="count" type="xsd:int" />
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="Bathrooms" minOccurs="0">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Bathroom" type="BathroomType" minOccurs="0" />
+                    </xsd:sequence>
+                    <xsd:attribute name="count" type="xsd:int" />
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="MinimumStayLength" type="xsd:int" minOccurs="0"/>
+            <xsd:element name="CheckIn" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="CheckOut" type="xsd:string" minOccurs="0" />
+            <xsd:element name="Currency" minOccurs="0">
+                <xsd:simpleType>
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Three letter ISO 4217 currency code
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:pattern value="[A-Z]{3}"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="UnitSize" type="UnitSizeType" minOccurs="0" />
+        </xsd:all>
+    </xsd:complexType>
+    <xsd:complexType name="UnitSizeType">
+        <xsd:attribute name="units">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="meters"/>
+                    <xsd:enumeration value="feet"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="BathroomType">
+        <xsd:attribute name="full" type="xsd:int" />
+        <xsd:attribute name="half" type="xsd:int" />
+        <xsd:attribute name="shower" type="xsd:int" />
+    </xsd:complexType>
+    <xsd:complexType name="BedroomType">
+        <xsd:attribute name="king" type="xsd:int" />
+        <xsd:attribute name="queen" type="xsd:int" />
+        <xsd:attribute name="full" type="xsd:int" />
+        <xsd:attribute name="twin" type="xsd:int" />
+        <xsd:attribute name="bunk" type="xsd:int" />
+        <xsd:attribute name="other" type="xsd:int" />
+    </xsd:complexType>
+    <xsd:complexType name="AddressType">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="Address1" type="xsd:string" />
+            <xsd:element minOccurs="0" name="Address2" type="xsd:string" />
+            <xsd:element minOccurs="0" name="City" type="xsd:string" />
+            <xsd:element minOccurs="0" name="State" type="xsd:string" />
+            <xsd:element minOccurs="0" name="ZipCode" type="xsd:string" />
+            <xsd:element name="Country" type="xsd:string" />
+            <xsd:element minOccurs="0" name="Latitude" type="xsd:double" />
+            <xsd:element minOccurs="0" name="Longitude" type="xsd:double" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="yesno">
+        <xsd:attribute name="value">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="yes|no"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:complexType>
+    <xsd:simpleType name="money">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:fractionDigits value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>
