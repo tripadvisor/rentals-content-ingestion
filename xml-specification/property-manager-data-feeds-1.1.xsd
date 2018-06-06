@@ -94,6 +94,7 @@
                         <xsd:element minOccurs="0" name="MonthlyMaxRate" type="money" />
                         <xsd:element minOccurs="0" name="MinimumStayLength" type="xsd:int" />
                         <xsd:element minOccurs="0" name="TurnDay" type="xsd:string" />
+                        <xsd:element minOccurs="0" name="CheckoutDays" type="CheckoutDayList" default="Sunday Monday Tuesday Wednesday Thursday Friday Saturday"/>
                         <xsd:element minOccurs="0" name="WeekendNights" type="xsd:string" />
                         <xsd:element minOccurs="0" name="PerPersonPerNight" type="xsd:string" />
                         <xsd:element minOccurs="0" name="PerPersonPerStay" type="xsd:string" />
@@ -275,5 +276,20 @@
         <xsd:restriction base="xsd:decimal">
             <xsd:fractionDigits value="2"/>
         </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="DayOfWeek">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Sunday"/>
+            <xsd:enumeration value="Monday"/>
+            <xsd:enumeration value="Tuesday"/>
+            <xsd:enumeration value="Wednesday"/>
+            <xsd:enumeration value="Thursday"/>
+            <xsd:enumeration value="Friday"/>
+            <xsd:enumeration value="Saturday"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="CheckoutDayList">
+        <xsd:list itemType="DayOfWeek" />
     </xsd:simpleType>
 </xsd:schema>
